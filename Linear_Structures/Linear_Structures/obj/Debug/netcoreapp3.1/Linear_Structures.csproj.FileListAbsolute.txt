@@ -1,0 +1,16 @@
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\Linear_Structures\bin\Debug\netcoreapp3.1\Linear_Structures.exe
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\Linear_Structures\bin\Debug\netcoreapp3.1\Linear_Structures.deps.json
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\Linear_Structures\bin\Debug\netcoreapp3.1\Linear_Structures.runtimeconfig.json
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\Linear_Structures\bin\Debug\netcoreapp3.1\Linear_Structures.runtimeconfig.dev.json
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\Linear_Structures\bin\Debug\netcoreapp3.1\Linear_Structures.dll
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\Linear_Structures\bin\Debug\netcoreapp3.1\Linear_Structures.pdb
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\Linear_Structures\obj\Debug\netcoreapp3.1\Linear_Structures.csprojAssemblyReference.cache
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\Linear_Structures\obj\Debug\netcoreapp3.1\Linear_Structures.AssemblyInfoInputs.cache
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\Linear_Structures\obj\Debug\netcoreapp3.1\Linear_Structures.AssemblyInfo.cs
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\Linear_Structures\obj\Debug\netcoreapp3.1\Linear_Structures.csproj.CoreCompileInputs.cache
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\Linear_Structures\obj\Debug\netcoreapp3.1\Linear_Structures.dll
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\Linear_Structures\obj\Debug\netcoreapp3.1\Linear_Structures.pdb
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\Linear_Structures\obj\Debug\netcoreapp3.1\Linear_Structures.genruntimeconfig.cache
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\Linear_Structures\bin\Debug\netcoreapp3.1\my_array.dll
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\Linear_Structures\bin\Debug\netcoreapp3.1\my_array.pdb
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\Linear_Structures\obj\Debug\netcoreapp3.1\Linear_Structures.csproj.CopyComplete

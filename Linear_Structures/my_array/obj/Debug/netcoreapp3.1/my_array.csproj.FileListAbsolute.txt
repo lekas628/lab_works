@@ -1,0 +1,9 @@
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\my_array\bin\Debug\netcoreapp3.1\my_array.deps.json
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\my_array\bin\Debug\netcoreapp3.1\my_array.dll
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\my_array\bin\Debug\netcoreapp3.1\my_array.pdb
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\my_array\obj\Debug\netcoreapp3.1\my_array.AssemblyInfoInputs.cache
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\my_array\obj\Debug\netcoreapp3.1\my_array.AssemblyInfo.cs
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\my_array\obj\Debug\netcoreapp3.1\my_array.csproj.CoreCompileInputs.cache
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\my_array\obj\Debug\netcoreapp3.1\my_array.dll
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\my_array\obj\Debug\netcoreapp3.1\my_array.pdb
+C:\Users\leka6\source\repos\lekas628\lab_works\Linear_Structures\my_array\obj\Debug\netcoreapp3.1\my_array.csprojAssemblyReference.cache
