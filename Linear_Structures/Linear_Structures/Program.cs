@@ -19,22 +19,74 @@ namespace Linear_Structures
 
 
             
-            MyArray array = new MyArray(len);
-            array.add(55);
-            array.add(3);
+            MyStack stack = new MyStack(len);
+            for (int i = 0; i < len; i++)
+                stack.Add(shuffled_input[i]);
 
-            Console.WriteLine(array.pop());
-            Console.WriteLine(array.pop());
-            Console.WriteLine(array.isEmpty());
+            stack = quicksort(stack);
 
+            foreach (int i in stack.ARR)
+                Console.WriteLine(i);
+
+            //}
+            //static void PrintArray(int[] arr)
+            //{
+            //    for (int i = 0; i < arr.Length; i++)
+            //    {
+            //        Console.WriteLine($"{i} elem of arr is {arr[i]}");
+            //    }
+            //    Console.WriteLine('\n');
         }
-        static void PrintArray(int[] arr)
+
+
+        static MyStack quicksort(MyStack ms) //, bool isReversed)
         {
-            for (int i = 0; i < arr.Length; i++)
+            if (ms.IsEmpty())
+                return ms;
+
+            int pivot = ms.Pop();
+
+            MyStack l_ms = new MyStack(ms.MaxLen);
+            MyStack r_ms = new MyStack(ms.MaxLen);
+
+            //while(!ms.IsEmpty())
+            //{
+            //    int tmp = ms.Pop();
+            //    if (tmp <= pivot)
+            //    {
+            //        if (!isReversed)
+            //            l_ms.add(tmp);
+            //        else
+            //            r_ms.add(tmp);
+            //    }
+            //    else
+            //    {
+            //        if (!isReversed)
+            //            r_ms.add(tmp);
+            //        else
+            //            l_ms.add(tmp);
+            //    }
+            //    isReversed = !isReversed;
+            //}
+
+
+            while (!ms.IsEmpty())
             {
-                Console.WriteLine($"{i} elem of arr is {arr[i]}");
+                int tmp = ms.Pop();
+                if (tmp <= pivot)
+                    l_ms.Add(tmp);
+                else
+                    r_ms.Add(tmp);
             }
-            Console.WriteLine('\n');
+            
+            MyStack l_ms_sorted = quicksort(l_ms);
+            MyStack r_ms_sorted = quicksort(r_ms);
+
+            l_ms_sorted.Add(pivot);
+            while (!r_ms_sorted.IsEmpty())
+                l_ms_sorted.Add(r_ms_sorted.Pop());
+
+            return l_ms_sorted;
         }
     }
 }

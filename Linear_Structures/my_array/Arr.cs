@@ -2,16 +2,12 @@
 
 namespace MyArrayFolder
 {
-    public class MyArray
+    public class MyStack
     {
-        // главный массив
         private int[] array;
-        
-        // указывает на следующее свободное место в массиве
-        public int TopPointer { get; private set; }
-        // максимальный размер массива
-        public int MaxLen { get; set; }
 
+        public int TopPointer { get; private set; }
+        public int MaxLen { get; private set; }
 
         // потом убрать
         public int[] ARR
@@ -20,42 +16,28 @@ namespace MyArrayFolder
             set { array = value; }
         }
 
-
-
-
-        public MyArray(int _len = 100)
+        public MyStack(int _len = 100)
         {
             array = new int[_len];
-            foreach (int i in array)
-                array[i] = 0;
-            
+
             MaxLen = _len;
             TopPointer = 0;
         }
-        public void add(int _value)
+        public void Add(int _value)
         {
             if (TopPointer < MaxLen)
             {
                 array[TopPointer++] = _value;
             }
         }
-        
-        //public int pop()
-        //{
-        //    if (!isEmpty())
-        //    {
-        //        return array[--TopPointer];
 
-        //    }
-        //    else
-        //        throw new IndexOutOfRangeException();
-        //}
+        public int Pop() => !IsEmpty() ? array[--TopPointer] : throw new IndexOutOfRangeException();
+        public int Peek() => !this.IsEmpty() ? array[TopPointer - 1] : throw new IndexOutOfRangeException();
+        public bool IsEmpty() => (TopPointer == 0);
+        public void Clear() => TopPointer = 0;
+        public int GetSize() => MaxLen;
+        public int GetTopPointer() => TopPointer;
 
-        public int pop() => !isEmpty() ? array[--TopPointer] : throw new IndexOutOfRangeException();
-
-        public bool isEmpty() => (TopPointer == 0);
-        
-
+   
     }
-
 }
