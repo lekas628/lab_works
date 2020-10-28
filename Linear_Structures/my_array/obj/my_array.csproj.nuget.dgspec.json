@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\leka6\\source\\repos\\lekas628\\lab_works\\Linear_Structures\\my_array\\my_array.csproj": {}
+    "C:\\Users\\leka6\\Source\\Repos\\lekas628\\lab_works\\Linear_Structures\\my_array\\my_array.csproj": {}
   },
   "projects": {
-    "C:\\Users\\leka6\\source\\repos\\lekas628\\lab_works\\Linear_Structures\\my_array\\my_array.csproj": {
+    "C:\\Users\\leka6\\Source\\Repos\\lekas628\\lab_works\\Linear_Structures\\my_array\\my_array.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\leka6\\source\\repos\\lekas628\\lab_works\\Linear_Structures\\my_array\\my_array.csproj",
+        "projectUniqueName": "C:\\Users\\leka6\\Source\\Repos\\lekas628\\lab_works\\Linear_Structures\\my_array\\my_array.csproj",
         "projectName": "my_array",
-        "projectPath": "C:\\Users\\leka6\\source\\repos\\lekas628\\lab_works\\Linear_Structures\\my_array\\my_array.csproj",
+        "projectPath": "C:\\Users\\leka6\\Source\\Repos\\lekas628\\lab_works\\Linear_Structures\\my_array\\my_array.csproj",
         "packagesPath": "C:\\Users\\leka6\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\leka6\\source\\repos\\lekas628\\lab_works\\Linear_Structures\\my_array\\obj\\",
+        "outputPath": "C:\\Users\\leka6\\Source\\Repos\\lekas628\\lab_works\\Linear_Structures\\my_array\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\leka6\\AppData\\Roaming\\NuGet\\NuGet.Config",
