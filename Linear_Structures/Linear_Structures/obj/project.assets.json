@@ -27,19 +27,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\leka6\\.nuget\\packages\\": {}
+    "C:\\Users\\Admin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\leka6\\source\\repos\\lekas628\\lab_works\\Linear_Structures\\Linear_Structures\\Linear_Structures.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\lekas628\\lab_works\\Linear_Structures\\Linear_Structures\\Linear_Structures.csproj",
       "projectName": "Linear_Structures",
-      "projectPath": "C:\\Users\\leka6\\source\\repos\\lekas628\\lab_works\\Linear_Structures\\Linear_Structures\\Linear_Structures.csproj",
-      "packagesPath": "C:\\Users\\leka6\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\leka6\\source\\repos\\lekas628\\lab_works\\Linear_Structures\\Linear_Structures\\obj\\",
+      "projectPath": "C:\\Users\\Admin\\source\\repos\\lekas628\\lab_works\\Linear_Structures\\Linear_Structures\\Linear_Structures.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Admin\\source\\repos\\lekas628\\lab_works\\Linear_Structures\\Linear_Structures\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\leka6\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -52,8 +52,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\leka6\\source\\repos\\lekas628\\lab_works\\Linear_Structures\\my_array\\my_array.csproj": {
-              "projectPath": "C:\\Users\\leka6\\source\\repos\\lekas628\\lab_works\\Linear_Structures\\my_array\\my_array.csproj"
+            "C:\\Users\\Admin\\source\\repos\\lekas628\\lab_works\\Linear_Structures\\my_array\\my_array.csproj": {
+              "projectPath": "C:\\Users\\Admin\\source\\repos\\lekas628\\lab_works\\Linear_Structures\\my_array\\my_array.csproj"
             }
           }
         }
@@ -81,7 +81,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
       }
     }
   }
