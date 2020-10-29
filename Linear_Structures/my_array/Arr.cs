@@ -9,14 +9,7 @@ namespace MyArrayFolder
         public int TopPointer { get; private set; }
         public int MaxLen { get; private set; }
 
-        // потом убрать
-        public int[] ARR
-        {
-            get { return array; }
-            set { array = value; }
-        }
-
-        public MyStack(int _len = 100)
+        public MyStack(int _len)
         {
             array = new int[_len];
 
@@ -52,23 +45,76 @@ namespace MyArrayFolder
         }
 
 
-        public static MyStack quicksort(MyStack ms)
+        public MyStack GetCopy()
         {
-            if (ms.IsEmpty())
-                return ms;
-            if (ms.TopPointer == 1)
-                return ms;
+            MyStack tmp_stack = new MyStack(GetSize());
+            while (!IsEmpty())
+                tmp_stack.Add(Pop());
 
-            int pivot = ms.Pop();
-
-            MyStack l_ms = new MyStack(ms.MaxLen);
-            MyStack r_ms = new MyStack(ms.MaxLen);
-
-
-
-            while (!ms.IsEmpty())
+            MyStack for_return = new MyStack(GetSize());
+            while(!tmp_stack.IsEmpty())
             {
-                int tmp = ms.Pop();
+                for_return.Add(tmp_stack.Peek());
+                Add(tmp_stack.Pop());
+            }
+            return for_return;
+        }
+
+
+        //public static MyStack quicksort(MyStack ms)
+        //{
+        //    if (ms.IsEmpty())
+        //        return ms;
+        //    if (ms.TopPointer == 1)
+        //        return ms;
+
+        //    int pivot = ms.Pop();
+
+        //    MyStack l_ms = new MyStack(ms.MaxLen);
+        //    MyStack r_ms = new MyStack(ms.MaxLen);
+
+
+
+        //    while (!ms.IsEmpty())
+        //    {
+        //        int tmp = ms.Pop();
+        //        if (tmp <= pivot)
+        //                l_ms.Add(tmp);
+        //        else
+        //            r_ms.Add(tmp);
+        //    }
+
+
+        //    MyStack l_ms_sorted = quicksort(l_ms);
+        //    MyStack r_ms_sorted = quicksort(r_ms);
+
+        //    l_ms_sorted.Add(pivot);
+
+        //    r_ms_sorted.Reverse();
+
+        //    while (!r_ms_sorted.IsEmpty())
+        //        l_ms_sorted.Add(r_ms_sorted.Pop());
+
+        //    return l_ms_sorted;
+        //}     
+        
+        public void quicksort()
+        {
+            if (IsEmpty())
+                return;
+            if (TopPointer == 1)
+                return;
+
+            int pivot = Pop();
+
+            MyStack l_ms = new MyStack(MaxLen);
+            MyStack r_ms = new MyStack(MaxLen);
+
+
+
+            while (!IsEmpty())
+            {
+                int tmp = Pop();
                 if (tmp <= pivot)
                         l_ms.Add(tmp);
                 else
@@ -76,17 +122,19 @@ namespace MyArrayFolder
             }
 
 
-            MyStack l_ms_sorted = quicksort(l_ms);
-            MyStack r_ms_sorted = quicksort(r_ms);
+            l_ms.quicksort();
+            r_ms.quicksort();
 
-            l_ms_sorted.Add(pivot);
+            l_ms.Reverse();
+            r_ms.Reverse();
 
-            r_ms_sorted.Reverse();
+            while (!l_ms.IsEmpty())
+                Add(l_ms.Pop());
 
-            while (!r_ms_sorted.IsEmpty())
-                l_ms_sorted.Add(r_ms_sorted.Pop());
+            Add(pivot);
 
-            return l_ms_sorted;
+            while (!r_ms.IsEmpty())
+                Add(r_ms.Pop());
         }
 
     }
