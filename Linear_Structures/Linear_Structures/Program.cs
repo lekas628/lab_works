@@ -26,50 +26,75 @@ namespace Linear_Structures
             int max = _len;
             int[] sh_ar = get_shuffled_array(_len, max);
             
-            long ellapledTicks = DateTime.Now.Ticks;
-            
+            MyStack stack = new MyStack(len);
+            for (int i = 0; i < len; i++)
+                stack.Add(shuffled_input[i]);
+
+            stack = quicksort(stack);
 
             MyStack stack = new MyStack(_len);
             for(int i = 0; i < sh_ar.Length; i++)
                 stack.Add(i);
 
-            //stack = MyStack.quicksort(stack);
-            stack.quicksort();
-
-
-            ellapledTicks = DateTime.Now.Ticks - ellapledTicks;
-
-            bool success = is_stack_sorted(stack.GetCopy());
-
-            return ( _len, ellapledTicks, success);
+            //}
+            //static void PrintArray(int[] arr)
+            //{
+            //    for (int i = 0; i < arr.Length; i++)
+            //    {
+            //        Console.WriteLine($"{i} elem of arr is {arr[i]}");
+            //    }
+            //    Console.WriteLine('\n');
         }
 
-        static int[] get_shuffled_array(int _len, int _max, int _min = 0)
-        {
-            int[] shuffled_input = new int[_len];
-            Random randNum = new Random();
-            for (int i = 0; i < shuffled_input.Length; i++)
-            {
-                shuffled_input[i] = randNum.Next(_min, _max);
-            }
-            return shuffled_input;
-        }
 
-        static bool is_stack_sorted(MyStack st)
+        static MyStack quicksort(MyStack ms) //, bool isReversed)
         {
-            int tmp = st.Pop();
-            while (!st.IsEmpty())
-            {
-                if (tmp >= st.Peek())
-                {
-                    tmp = st.Pop();
-                    continue;
-                }
+            if (ms.IsEmpty())
+                return ms;
 
+            int pivot = ms.Pop();
+
+            MyStack l_ms = new MyStack(ms.MaxLen);
+            MyStack r_ms = new MyStack(ms.MaxLen);
+
+            //while(!ms.IsEmpty())
+            //{
+            //    int tmp = ms.Pop();
+            //    if (tmp <= pivot)
+            //    {
+            //        if (!isReversed)
+            //            l_ms.add(tmp);
+            //        else
+            //            r_ms.add(tmp);
+            //    }
+            //    else
+            //    {
+            //        if (!isReversed)
+            //            r_ms.add(tmp);
+            //        else
+            //            l_ms.add(tmp);
+            //    }
+            //    isReversed = !isReversed;
+            //}
+
+
+            while (!ms.IsEmpty())
+            {
+                int tmp = ms.Pop();
+                if (tmp <= pivot)
+                    l_ms.Add(tmp);
                 else
-                    return false;
+                    r_ms.Add(tmp);
             }
-            return true;
+            
+            MyStack l_ms_sorted = quicksort(l_ms);
+            MyStack r_ms_sorted = quicksort(r_ms);
+
+            l_ms_sorted.Add(pivot);
+            while (!r_ms_sorted.IsEmpty())
+                l_ms_sorted.Add(r_ms_sorted.Pop());
+
+            return l_ms_sorted;
         }
     }
 }
