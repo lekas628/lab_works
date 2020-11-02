@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MyArrayFolder;
+using System.Diagnostics;
 
 
 namespace Linear_Structures
@@ -9,92 +10,100 @@ namespace Linear_Structures
     {
         static void Main(string[] args)
         {
-            int[] testing_lenght = {10, 50, 100, 500, 1000, 5000};
 
-            foreach(int size in testing_lenght)
+            run();
+
+            //int[] shuffled = get_shuffled_array(10, 10);
+            //foreach (int i in shuffled)
+            //    Console.WriteLine(i);
+            //Console.WriteLine("\n");
+
+            //shuffled = get_shuffled_array(10, 10);
+            //foreach (int i in shuffled)
+            //    Console.WriteLine(i);
+
+
+            //ms.quicksort(0, ms.TopPointer - 1);
+            //ms.WriteUsingPop();
+
+            //foreach (int i in array)
+            //    Console.WriteLine(i);
+
+
+        }
+
+        static void run()
+        {
+            int[] testing_lenght = { 10, 50, 100, 500, 1000, 3000, 5000 };
+
+            Console.WriteLine($"{"Len",10} {"N_op",25} {"Time (sec)",25} {"success",10}");
+            foreach (int size in testing_lenght)
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 3; i++)
                 {
-                    (int, long, bool) test = test_my_stack(size);
-                    Console.WriteLine(test);
+                    (int, long, TimeSpan, bool) test = test_stack(size);
+                    //Console.WriteLine(test);
+                    Console.WriteLine($"{test.Item1,10} {test.Item2,25} {test.Item3.TotalSeconds,25} {test.Item4,10}");
                 }
             }
         }
 
-        static (int, long, bool) test_my_stack(int _len)
+        static (int, long, TimeSpan, bool) test_stack(int _len)
         {
+            MyStack.N_op = 0;
             int max = _len;
             int[] sh_ar = get_shuffled_array(_len, max);
-            
-            MyStack stack = new MyStack(len);
-            for (int i = 0; i < len; i++)
-                stack.Add(shuffled_input[i]);
 
-            stack = quicksort(stack);
+
+            //long ellapledTicks = DateTime.Now.Ticks;
+            TimeSpan Time1 = DateTime.Now.TimeOfDay;
+
+
 
             MyStack stack = new MyStack(_len);
-            for(int i = 0; i < sh_ar.Length; i++)
-                stack.Add(i);
+            for (int i = 0; i < sh_ar.Length; i++)
+                stack.Add(sh_ar[i]);
 
-            //}
-            //static void PrintArray(int[] arr)
-            //{
-            //    for (int i = 0; i < arr.Length; i++)
-            //    {
-            //        Console.WriteLine($"{i} elem of arr is {arr[i]}");
-            //    }
-            //    Console.WriteLine('\n');
+
+            stack.quicksort(0, stack.TopPointer - 1);
+
+
+            //ellapledTicks = DateTime.Now.Ticks - ellapledTicks;
+            TimeSpan Time2 = DateTime.Now.TimeOfDay;
+            TimeSpan time_result = Time2 - Time1;
+
+            long N_op = MyStack.N_op;
+            bool success = is_stack_sorted(stack.GetCopy());
+
+            return (_len, N_op, time_result, success);
         }
 
-
-        static MyStack quicksort(MyStack ms) //, bool isReversed)
+        static int[] get_shuffled_array(int _len, int _max, int _min = 0)
         {
-            if (ms.IsEmpty())
-                return ms;
-
-            int pivot = ms.Pop();
-
-            MyStack l_ms = new MyStack(ms.MaxLen);
-            MyStack r_ms = new MyStack(ms.MaxLen);
-
-            //while(!ms.IsEmpty())
-            //{
-            //    int tmp = ms.Pop();
-            //    if (tmp <= pivot)
-            //    {
-            //        if (!isReversed)
-            //            l_ms.add(tmp);
-            //        else
-            //            r_ms.add(tmp);
-            //    }
-            //    else
-            //    {
-            //        if (!isReversed)
-            //            r_ms.add(tmp);
-            //        else
-            //            l_ms.add(tmp);
-            //    }
-            //    isReversed = !isReversed;
-            //}
-
-
-            while (!ms.IsEmpty())
+            int[] shuffled_input = new int[_len];
+            Random randNum = new Random();
+            for (int i = 0; i < shuffled_input.Length; i++)
             {
-                int tmp = ms.Pop();
-                if (tmp <= pivot)
-                    l_ms.Add(tmp);
-                else
-                    r_ms.Add(tmp);
+                shuffled_input[i] = randNum.Next(_min, _max);
             }
-            
-            MyStack l_ms_sorted = quicksort(l_ms);
-            MyStack r_ms_sorted = quicksort(r_ms);
+            return shuffled_input;
+        }
 
-            l_ms_sorted.Add(pivot);
-            while (!r_ms_sorted.IsEmpty())
-                l_ms_sorted.Add(r_ms_sorted.Pop());
+        static bool is_stack_sorted(MyStack st)
+        {
+            int tmp = st.Pop();
+            while (!st.IsEmpty())
+            {
+                if (tmp >= st.Peek())
+                {
+                    tmp = st.Pop();
+                    continue;
+                }
 
-            return l_ms_sorted;
+                else
+                    return false;
+            }
+            return true;
         }
     }
 }
