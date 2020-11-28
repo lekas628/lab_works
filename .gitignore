@@ -338,3 +338,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+Binary_Tree/.vscode
+Linear_Structures/.vscode
