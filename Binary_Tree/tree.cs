@@ -2,13 +2,13 @@ using System;
 
 namespace Tree
 {
-    class Binary_Tree
+    class BinaryTree
     {
         private Node root;
         public Node Root { get => root; private set => root = value; }
 
 
-        public Binary_Tree(int value)
+        public BinaryTree(int value)
         {
             Root = new Node(value);
         }
@@ -18,7 +18,7 @@ namespace Tree
             return Root.Value;
         }
 
-        public void addNode(int value)
+        public void insertNode(int value)
         {
             bool isSet = false;
             Node newNode = new Node(value);
@@ -53,7 +53,7 @@ namespace Tree
             }
         }
 
-        public bool isElementInTree(int value)
+        public Node findNode(int value)
         {
             Node currentCompareNode = Root;
             while(currentCompareNode != null)
@@ -68,10 +68,10 @@ namespace Tree
                 }
                 else
                 {
-                    return true;
+                    return currentCompareNode;
                 }
             }
-            return false; 
+            return null; 
         }
     }
 
