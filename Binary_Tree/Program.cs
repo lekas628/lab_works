@@ -1,5 +1,5 @@
 ﻿using System;
-using Tree;
+using Another_Tree;
 
 namespace Program
 {
@@ -7,18 +7,23 @@ namespace Program
     {
         static void Main(string[] args)
         {
-            Binary_Tree tree = new Binary_Tree(50);
-            
-            tree.addNode(45);
-            tree.addNode(55);
-            PrintNodeInformationCompact(tree.Root);
-            
-            tree.addNode(30);
-            tree.addNode(47);
-            PrintNodeInformationCompact(tree.Root.LeftSon);
+            AnotherTree tree = new AnotherTree(50);
 
-            tree.addNode(57);
-            PrintNodeInformationCompact(tree.Root.RightSon);
+
+            // BinaryTree tree = new BinaryTree(50);
+            // tree.insertNode(45);
+            // tree.insertNode(55);
+            // Console.WriteLine("info about root");
+            // PrintNodeInformationCompact(tree.Root);
+            
+            // tree.insertNode(30);
+            // tree.insertNode(47);
+            // Console.WriteLine("info about left son");
+            // PrintNodeInformationCompact(tree.Root.LeftSon);
+
+            // tree.insertNode(57);
+            // Console.WriteLine("info about right son");
+            // PrintNodeInformationCompact(tree.Root.RightSon);
         }
         static void PrintNodeInformation(Node node)
         {
