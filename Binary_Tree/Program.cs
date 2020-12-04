@@ -5,25 +5,36 @@ namespace Program
 {
     class Program
     {
+        static private Random rand = new Random();
+
         static void Main(string[] args)
         {
-            AnotherTree tree = new AnotherTree(50);
-
-
-            // BinaryTree tree = new BinaryTree(50);
-            // tree.insertNode(45);
-            // tree.insertNode(55);
-            // Console.WriteLine("info about root");
-            // PrintNodeInformationCompact(tree.Root);
             
-            // tree.insertNode(30);
-            // tree.insertNode(47);
-            // Console.WriteLine("info about left son");
-            // PrintNodeInformationCompact(tree.Root.LeftSon);
+            Node root = null;
 
-            // tree.insertNode(57);
-            // Console.WriteLine("info about right son");
-            // PrintNodeInformationCompact(tree.Root.RightSon);
+            //for (int i = 0; i < 40; i++)
+            //    root = AnotherTree.insertNode(root, rand.Next() % 100);
+
+            int n = 1500;
+            int max_number = n;
+            int elements = n;
+            
+            for (int i = 0; i < elements; i++)
+                root = AnotherTree.insertNode(root, rand.Next() % max_number);
+
+
+
+            //root = AnotherTree.insertNode(root, 65);
+            //root = AnotherTree.insertNode(root, 35);
+            //root = AnotherTree.insertNode(root, 75);
+
+            //PrintNodeInformationCompact(root);
+            //PrintNodeInformationCompact(root.LeftSon);
+            //PrintNodeInformationCompact(root.RightSon);
+            int max_deep = AnotherTree.printTree(root, isRoot: true);
+            Console.WriteLine($"\n\nMAX DEEP IS {max_deep}");
+
+
         }
         static void PrintNodeInformation(Node node)
         {

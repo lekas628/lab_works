@@ -2,21 +2,13 @@ using System;
 
 namespace Another_Tree
 {
-    partial class AnotherTree
+    class AnotherTree
     {
-        private Node root;
-        public Node Root { get => root; private set => root = value; }
         static private Random rand = new Random();
-
-
-        public AnotherTree(int value)
-        {
-            Root = new Node(value);
-        }
 
         static public Node findNode(Node p, int value)
         {
-            if( p == null ) 
+            if (p == null)
             {
                 return p;
             }
@@ -32,15 +24,15 @@ namespace Another_Tree
 
         static public Node insertNode(Node p, int value)
         {
-            if ( p == null)
+            if (p == null)
             {
                 return new Node(value);
             }
-            if ( rand.Next()%(p.Size + 1) == 0)
+            if (rand.Next() % (p.Size + 1) == 0)
             {
                 return insertRoot(p, value);
             }
-            if( p.Value > value)
+            if (p.Value > value)
             {
                 p.LeftSon = insertNode(p.LeftSon, value);
             }
@@ -48,55 +40,13 @@ namespace Another_Tree
             {
                 p.RightSon = insertNode(p.RightSon, value);
             }
-            fixSize(p);
             return p;
-        }
-        static public int getSize(Node p)
-        {
-            if ( p == null)
-            {
-                return 0;
-            }
-            return p.Size;
-        }
-        static public void fixSize(Node p)
-        {
-            p.Size = getSize(p.LeftSon) + getSize(p.RightSon) + 1;
         }
 
-        static Node rotateRight(Node p)
+        static public Node insertRoot(Node p, int value)
         {
-            Node q = p.LeftSon;
-            if ( q == null) 
-            {
-                return p;
-            }
-            p.LeftSon = q.RightSon;
-            q.RightSon = p;
-            q.Size = p.Size;
-            fixSize(p);
-            return q;
-        }
-        static Node rotateLeft(Node q)
-        {
-            Node p = q.RightSon;
-            if(p == null)
-            {
-                return q;
-            }
-            q.RightSon = p.LeftSon;
-            p.LeftSon = q;
-            p.Size = q.Size;
-            fixSize(q);
-            return p;
-        }
-        static Node insertRoot(Node p, int value)
-        {
-            if(p == null)
-            {
-                return new Node(value);
-            }
-            if( value < p.Value)
+            if (p == null) return new Node(value);
+            if (value < p.Value)
             {
                 p.LeftSon = insertRoot(p.LeftSon, value);
                 return rotateRight(p);
@@ -107,7 +57,81 @@ namespace Another_Tree
                 return rotateLeft(p);
             }
         }
-       
+
+
+        static public int getSize(Node p)
+        {
+            if (p == null) return 0;
+            else
+                return p.Size;
+        }
+
+
+        static public void fixSize(Node p)
+        {
+            p.Size = getSize(p.LeftSon) + getSize(p.RightSon) + 1;
+        }
+
+        static public Node rotateRight(Node p)
+        {
+            Node q = p.LeftSon;
+            if (q == null)
+            {
+                return p;
+            }
+            p.LeftSon = q.RightSon;
+            q.RightSon = p;
+            q.Size = p.Size;
+            fixSize(p);
+            return q;
+        }
+        static public Node rotateLeft(Node q)
+        {
+            Node p = q.RightSon;
+            if (p == null)
+            {
+                return q;
+            }
+            q.RightSon = p.LeftSon;
+            p.LeftSon = q;
+            p.Size = q.Size;
+            fixSize(q);
+            return p;
+        }
+
+        static public int printTree(Node p, int prefix_number = 0, bool isRoot = false)
+        {
+            int max_deep = prefix_number;
+
+            if (p.LeftSon != null)
+            {
+                int left_deep = printTree(p.LeftSon, prefix_number + 1);
+                if (max_deep < left_deep)
+                    max_deep = left_deep;
+            }
+
+            string output = $"NODE HASH({p.GetHashCode()}) VALUE({p.Value})";
+            if (isRoot)
+                output = "ROOT " + output;
+
+            int prefix_counter = 0;
+            while (prefix_counter < prefix_number)
+            {
+                output = "+" + output;
+                prefix_counter++;
+            }
+            output = $"{prefix_number}" + output;
+
+            Console.WriteLine(output);
+
+            if (p.RightSon != null)
+            {
+                int right_deep = printTree(p.RightSon, prefix_number + 1);
+                if (max_deep < right_deep)
+                    max_deep = right_deep;
+            }
+            return max_deep;
+        }
     }
 
     class Node
@@ -120,14 +144,14 @@ namespace Another_Tree
         public int Value { get => value; set => this.value = value; }
         public int Size { get => size; set => this.size = value; }
         public Node LeftSon { get => leftSon; set => this.leftSon = value; }
-        public Node RightSon{ get => rightSon; set => this.rightSon = value; }
+        public Node RightSon { get => rightSon; set => this.rightSon = value; }
 
         public Node(int value)
         {
             Value = value;
             size = 1;
             LeftSon = null;
-            RightSon = null; 
+            RightSon = null;
         }
     }
 }
