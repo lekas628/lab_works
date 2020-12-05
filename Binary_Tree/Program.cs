@@ -1,5 +1,5 @@
 ﻿using System;
-using Another_Tree;
+using Tree;
 
 namespace Program
 {
@@ -13,28 +13,32 @@ namespace Program
             Node root = null;
 
             //for (int i = 0; i < 40; i++)
-            //    root = AnotherTree.insertNode(root, rand.Next() % 100);
+            //    root = Tree.Tree.insertNode(root, rand.Next() % 100);
 
-            int n = 1500;
+            int n = 150;
             int max_number = n;
             int elements = n;
             
             for (int i = 0; i < elements; i++)
-                root = AnotherTree.insertNode(root, rand.Next() % max_number);
+                root = Tree.Tree.insertNode(root, rand.Next() % max_number);
 
 
 
-            //root = AnotherTree.insertNode(root, 65);
-            //root = AnotherTree.insertNode(root, 35);
-            //root = AnotherTree.insertNode(root, 75);
+            //root = Tree.Tree.insertNode(root, 65);
+            //root = Tree.Tree.insertNode(root, 35);
+            //root = Tree.Tree.insertNode(root, 75);
 
             //PrintNodeInformationCompact(root);
             //PrintNodeInformationCompact(root.LeftSon);
             //PrintNodeInformationCompact(root.RightSon);
-            int max_deep = AnotherTree.printTree(root, isRoot: true);
+
+            int max_deep = Tree.Tree.printTree(root, isRoot: true);
             Console.WriteLine($"\n\nMAX DEEP IS {max_deep}");
+            Console.WriteLine("\nNLR");
+            Tree.Tree.NLR(root);
 
-
+            Console.WriteLine("\nLNR");
+            Tree.Tree.LNR(root);
         }
         static void PrintNodeInformation(Node node)
         {
