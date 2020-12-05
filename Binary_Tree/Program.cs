@@ -15,7 +15,7 @@ namespace Program
             //for (int i = 0; i < 40; i++)
             //    root = Tree.Tree.insertNode(root, rand.Next() % 100);
 
-            int n = 150;
+            int n = 25;
             int max_number = n;
             int elements = n;
             

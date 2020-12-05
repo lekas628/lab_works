@@ -19,7 +19,7 @@ namespace Tree
             }
             else
             {
-                return findNode(p.RightSon, value);
+                return findNode(p.LeftSon.RightBrother, value);
             }
         }
 
@@ -33,15 +33,30 @@ namespace Tree
             {
                 return insertRoot(p, value);
             }
-            if (p.Value > value)
+            if (value < p.Value)
             {
                 p.LeftSon = insertNode(p.LeftSon, value);
             }
             else
             {
-                p.RightSon = insertNode(p.RightSon, value);
+                InsertRightSon(p, value);   
             }
             return p;
+        }
+
+        static public Node InsertRightSon(Node p, int value)
+        {
+            if (p.LeftSon != null)
+            {
+                p.LeftSon.RightBrother = insertNode(p.LeftSon.RightBrother, value);
+                return p;
+            }
+            else
+            {
+                Node newRoot = new Node(value);
+                newRoot.LeftSon = p;
+                return newRoot;
+            }
         }
 
         static public Node insertRoot(Node p, int value)
@@ -161,19 +176,22 @@ namespace Tree
         int value;
         int size;
         Node leftSon;
-        Node rightSon;
+        //Node rightSon;
+        Node rightBrother;
 
         public int Value { get => value; set => this.value = value; }
         public int Size { get => size; set => this.size = value; }
         public Node LeftSon { get => leftSon; set => this.leftSon = value; }
-        public Node RightSon { get => rightSon; set => this.rightSon = value; }
+        //public Node RightSon { get => rightSon; set => this.rightSon = value; }
+        public Node RightBrother { get => rightBrother; set => this.rightBrother = value; }
 
         public Node(int value)
         {
             Value = value;
             size = 1;
             LeftSon = null;
-            RightSon = null;
+            //RightSon = null;
+            RightBrother = null;
         }
     }
 }
