@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using MyArrayFolder;
-using System.Diagnostics;
-
+using System.IO;
 
 namespace Linear_Structures
 {
@@ -34,16 +32,29 @@ namespace Linear_Structures
 
         static void run()
         {
-            int[] testing_lenght = { 10, 50, 100, 500, 1000, 3000, 5000 };
+            //int[] testing_lenght = { 10, 50, 100, 500, 1000, 3000, 5000 };
+            int[] testing_lenght = { 300, 600, 900, 1200, 1500, 1800, 2100, 2400, 2700, 3000 };
 
-            Console.WriteLine($"{"Len",10} {"N_op",25} {"Time (sec)",25} {"success",10}");
-            foreach (int size in testing_lenght)
+            string pathCsvFile = @"C:\Users\leka6\Documents\code\lab_works\Linear_Structures\log.csv";
+            if (!File.Exists(pathCsvFile))
+                File.Create(pathCsvFile);
+
+            using (StreamWriter streamWriter = new StreamWriter(pathCsvFile))
             {
-                for (int i = 0; i < 3; i++)
+                Console.WriteLine($"{"Len",10} {"N_op",25} {"Time (sec)",25} {"success",10}");
+                foreach (int size in testing_lenght)
                 {
-                    (int, long, TimeSpan, bool) test = test_stack(size);
-                    //Console.WriteLine(test);
-                    Console.WriteLine($"{test.Item1,10} {test.Item2,25} {test.Item3.TotalSeconds,25} {test.Item4,10}");
+                    for (int i = 0; i < 1; i++)
+                    {
+                        (int, long, TimeSpan, bool) test = test_stack(size);
+                        //Console.WriteLine(test);
+                        string line = $"{test.Item1,10} {test.Item2,25} {test.Item3.TotalSeconds,25} {test.Item4,10}";
+                        string line_for_csv = $"{test.Item1};{test.Item2};{test.Item3.TotalSeconds};{test.Item4}";
+                        Console.WriteLine(line);
+
+                        streamWriter.WriteLine(line_for_csv);
+                        streamWriter.Flush();
+                    }
                 }
             }
         }
