@@ -19,7 +19,7 @@ namespace Tree
             }
             else
             {
-                return findNode(p.LeftSon.RightBrother, value);
+                return findNode(p.RightSon, value);
             }
         }
 
@@ -39,25 +39,11 @@ namespace Tree
             }
             else
             {
-                InsertRightSon(p, value);   
+                p.RightSon = insertNode(p.RightSon, value);   
             }
             return p;
         }
 
-        static public Node InsertRightSon(Node p, int value)
-        {
-            if (p.LeftSon != null)
-            {
-                p.LeftSon.RightBrother = insertNode(p.LeftSon.RightBrother, value);
-                return p;
-            }
-            else
-            {
-                Node newRoot = new Node(value);
-                newRoot.LeftSon = p;
-                return newRoot;
-            }
-        }
 
         static public Node insertRoot(Node p, int value)
         {
@@ -184,6 +170,27 @@ namespace Tree
         public Node LeftSon { get => leftSon; set => this.leftSon = value; }
         //public Node RightSon { get => rightSon; set => this.rightSon = value; }
         public Node RightBrother { get => rightBrother; set => this.rightBrother = value; }
+        public Node RightSon
+        {
+            get
+            {
+                if (leftSon != null) { return rightBrother; }
+                else return null;
+            }
+            set
+            {
+                if (LeftSon != null) { leftSon.rightBrother = value; }
+                else 
+                {
+                    LeftSon = new Node(this.value);
+                    Node Me = this;
+                    Me = value; 
+                }
+            }
+        }
+
+
+
 
         public Node(int value)
         {

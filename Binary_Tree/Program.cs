@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Tree;
 
 namespace Program
@@ -17,12 +18,25 @@ namespace Program
 
             int n = 25;
             int max_number = n;
-            int elements = n;
+            int elements_number = n;
+            List<int> elements = new List<int>();
+
+            for (int i = 0; i < elements_number; i++)
+            {
+                int value = rand.Next() % max_number;
             
-            for (int i = 0; i < elements; i++)
-                root = Tree.Tree.insertNode(root, rand.Next() % max_number);
+                Console.Write($"{value} ");
+                
+                root = Tree.Tree.insertNode(root, value);
+                elements.Add(value);
+            }
+            Console.WriteLine("\n");
 
-
+            //foreach(int element in elements)
+            //{
+            //    Console.Write($"{element} ");
+            //}
+            //Console.Write("\n");
 
             //root = Tree.Tree.insertNode(root, 65);
             //root = Tree.Tree.insertNode(root, 35);
