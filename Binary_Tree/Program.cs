@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Tree;
 
 namespace Program
@@ -9,83 +10,60 @@ namespace Program
 
         static void Main(string[] args)
         {
-            
             Node root = null;
 
-            //for (int i = 0; i < 40; i++)
-            //    root = Tree.Tree.insertNode(root, rand.Next() % 100);
 
-            int n = 150;
-            int max_number = n;
-            int elements = n;
-            
-            for (int i = 0; i < elements; i++)
-                root = Tree.Tree.insertNode(root, rand.Next() % max_number);
+            bool printOutput = true;
+
+            int n = 5;
+            int maxNumber = n;
+            int maxElements = n;
+
+            List<int> inputListSorted = new List<int>();
+            List<int> CheckList = new List<int>();
 
 
+            Console.WriteLine("INPUT");
+            for (int i = 0; i < maxElements; i++)
+            {
+                int element = rand.Next() % maxNumber;
 
-            //root = Tree.Tree.insertNode(root, 65);
-            //root = Tree.Tree.insertNode(root, 35);
-            //root = Tree.Tree.insertNode(root, 75);
+                root = Tree.Tree.Insert(root, element);
+                inputListSorted.Add(element);
+                if(printOutput)
+                    Console.WriteLine(element);
+            }
+            inputListSorted.Sort();
 
-            //PrintNodeInformationCompact(root);
-            //PrintNodeInformationCompact(root.LeftSon);
-            //PrintNodeInformationCompact(root.RightSon);
 
-            int max_deep = Tree.Tree.printTree(root, isRoot: true);
-            Console.WriteLine($"\n\nMAX DEEP IS {max_deep}");
-            Console.WriteLine("\nNLR");
-            Tree.Tree.NLR(root);
+            Console.WriteLine("SORTED INPUT LIST");
+            foreach (int element in inputListSorted)
+            { 
+                if (printOutput)
+                    Console.WriteLine(element);
+            }
 
-            Console.WriteLine("\nLNR");
-            Tree.Tree.LNR(root);
-        }
-        static void PrintNodeInformation(Node node)
-        {
-            if(node == null)
+
+            Console.WriteLine("TREE PRINT AFTER FILL");
+            int maxDeep = Tree.Tree.printTree(root, onlyGetMaxDeep: !printOutput);
+            Console.WriteLine("\n");
+
+
+            CheckList.Clear();
+            Tree.Tree.InorderTraversal(root, CheckList);
+
+
+            bool result = true;
+            for (int i = 0; i < n; i++)
             {
-                Console.WriteLine("Null node");
-                return;
+                if (inputListSorted[i] != CheckList[i])
+                    result = false;
             }
-            String text = $"Node with hash {node.GetHashCode()} and value {node.Value} has ";
-            
-            if((node.LeftSon != null) && (node.RightSon != null))
-            {
-                text += $"left son {node.LeftSon.Value} and right son {node.RightSon.Value}";
-            }
-            else if(node.LeftSon != null)
-            {
-                text += $"left son {node.LeftSon.Value}";
-            }
-            else if(node.RightSon != null)
-            {
-                text += $"right son {node.RightSon.Value}";
-            }
-            Console.WriteLine(text);
-        }
-        
-        static void PrintNodeInformationCompact(Node node)
-        {
-            if(node == null)
-            {
-                Console.WriteLine("Null node");
-                return;
-            }
-            String text = $"NODE HASH({node.GetHashCode()}) VALUE({node.Value}) ";
-            
-            if((node.LeftSon != null) && (node.RightSon != null))
-            {
-                text += $"LEFT({node.LeftSon.Value}) RIGHT({node.RightSon.Value})";
-            }
-            else if(node.LeftSon != null)
-            {
-                text += $"LEFT({node.LeftSon.Value})";
-            }
-            else if(node.RightSon != null)
-            {
-                text += $"RIGHT({node.RightSon.Value})";
-            }
-            Console.WriteLine(text);
+            Console.WriteLine(result);
+
+            Console.WriteLine($"\n\nMAX DEEP IS {maxDeep}");
+            Console.ReadKey();
+
         }
     }
 }

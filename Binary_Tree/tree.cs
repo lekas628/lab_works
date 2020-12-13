@@ -3,177 +3,291 @@ using System.Collections.Generic;
 
 namespace Tree
 {
-    class Tree
+    static class Tree
     {
-        static private Random rand = new Random();
 
-        static public Node findNode(Node p, int value)
+        public static Random rand = new Random();
+
+        public static Node Find(Node node, int value)
         {
-            if (p == null)
+            if (node == null || node.mark == 1)
+                return null;
+            if(value <= node.value)
             {
-                return p;
-            }
-            if (value < p.Value)
-            {
-                return findNode(p.LeftSon, value);
+                return Find(node.leftChild, value);
             }
             else
             {
-                return findNode(p.RightSon, value);
+                if (node.leftChild != null)
+                    return Find(node.leftChild.rightBrother, value);
+                else
+                    return null;
             }
         }
-
-        static public Node insertNode(Node p, int value)
+        public static Node Insert(Node node, int value)
         {
-            if (p == null)
+            if (node == null)
             {
                 return new Node(value);
             }
-            if (rand.Next() % (p.Size + 1) == 0)
+            if (node.mark == 1)
             {
-                return insertRoot(p, value);
+                node.value = value;
+                node.mark = 0;
             }
-            if (p.Value > value)
+            else if (rand.Next() % (node.size + 1) == 0)
             {
-                p.LeftSon = insertNode(p.LeftSon, value);
+                return InsertRoot(node, value);
             }
-            else
+            else if (value <= node.value)
             {
-                p.RightSon = insertNode(p.RightSon, value);
-            }
-            return p;
-        }
-
-        static public Node insertRoot(Node p, int value)
-        {
-            if (p == null) return new Node(value);
-            if (value < p.Value)
-            {
-                p.LeftSon = insertRoot(p.LeftSon, value);
-                return rotateRight(p);
+                node.leftChild = Insert(node.leftChild, value);
             }
             else
             {
-                p.RightSon = insertRoot(p.RightSon, value);
-                return rotateLeft(p);
+                if (node.leftChild == null)
+                {
+                    node.leftChild = new Node(-1, mark: 1);
+                }
+                node.leftChild.rightBrother = Insert(node.leftChild.rightBrother, value);
+            }
+            return node;
+        }
+
+        static public Node InsertRoot(Node node, int value)
+        {
+            if (node == null) return new Node(value);
+            if (node.mark == 1)
+            {
+                node.value = value;
+                node.mark = 0;
+                return node;
+            }
+            else if (value <= node.value)
+            {
+                node.leftChild = InsertRoot(node.leftChild, value);
+                return rotateRight(node);
+            }
+            else
+            {
+                if (node.leftChild == null)
+                {
+                    node.leftChild = new Node(-1, mark: 1);
+                }
+                node.leftChild.rightBrother = InsertRoot(node.leftChild.rightBrother, value);
+                return rotateLeft(node);
             }
         }
 
 
-        static public int getSize(Node p)
+        public static Node rotateRight(Node p)
         {
-            if (p == null) return 0;
-            else
-                return p.Size;
-        }
-
-
-        static public void fixSize(Node p)
-        {
-            p.Size = getSize(p.LeftSon) + getSize(p.RightSon) + 1;
-        }
-
-        static public Node rotateRight(Node p)
-        {
-            Node q = p.LeftSon;
-            if (q == null)
-            {
+            Node q = p.leftChild;
+            if (q == null || q.mark == 1)
                 return p;
+
+            Node pRightBrother = p.rightBrother;
+            if(q.leftChild == null)
+            {
+                q.leftChild = new Node(-1, mark: 1);
             }
-            p.LeftSon = q.RightSon;
-            q.RightSon = p;
-            q.Size = p.Size;
+            if(q.leftChild.rightBrother == null)
+            {
+                q.leftChild.rightBrother = new Node(-1, mark: 1);
+            }
+            
+            p.leftChild = q.leftChild.rightBrother;
+            p.leftChild.rightBrother = q.rightBrother;
+            p.rightBrother = null;
+
+            q.rightBrother = pRightBrother;
+            q.leftChild.rightBrother = p;
+
             fixSize(p);
+            fixSize(q);
+
             return q;
         }
-        static public Node rotateLeft(Node q)
+
+        public static Node rotateLeft(Node q)
         {
-            Node p = q.RightSon;
-            if (p == null)
-            {
+            if (q.leftChild == null)
                 return q;
+            if (q.leftChild.rightBrother == null)
+                return q;
+
+            Node p = q.leftChild.rightBrother;
+            p.rightBrother = q.rightBrother;
+            
+            if (p.leftChild != null)
+            {
+                q.rightBrother = p.leftChild.rightBrother;
+                p.leftChild.rightBrother = null;
+                q.leftChild.rightBrother = p.leftChild;
             }
-            q.RightSon = p.LeftSon;
-            p.LeftSon = q;
-            p.Size = q.Size;
+            else
+            {
+                q.rightBrother = null;
+                q.leftChild.rightBrother = null;
+            }
+            
+            p.leftChild = q;
+
             fixSize(q);
+            fixSize(p);
+
             return p;
         }
 
-        static public int printTree(Node p, int prefix_number = 0, bool isRoot = false)
+        static public int printTree(Node node, int prefixNumber = 0, bool isRoot = false, int mark = 0, bool onlyGetMaxDeep = false)
         {
-            int max_deep = prefix_number;
+            if (node == null)
+                return 0;
 
-            if (p.LeftSon != null)
+            int maxDeep = prefixNumber;
+            if(node.leftChild != null)
             {
-                int left_deep = printTree(p.LeftSon, prefix_number + 1);
-                if (max_deep < left_deep)
-                    max_deep = left_deep;
+                int leftDeep = printTree(node.leftChild, prefixNumber + 1, onlyGetMaxDeep: onlyGetMaxDeep);
+                if (maxDeep < leftDeep) { maxDeep = leftDeep; }
             }
+            
+            string output = $"NODE HASH({node.GetHashCode()})";
 
-            string output = $"NODE HASH({p.GetHashCode()}) VALUE({p.Value})";
-            if (isRoot)
-                output = "ROOT " + output;
+            if (node.mark == 1)
+                output += $" VIRTUAL";
+            else
+                output +=  $" VALUE({node.value})";
+            
+            
+            //if(isRoot) { output = "ROOT" + output; }
 
-            int prefix_counter = 0;
-            while (prefix_counter < prefix_number)
+            int prefixCounter = 0;
+            while (prefixCounter < prefixNumber)
             {
                 output = "+" + output;
-                prefix_counter++;
+                prefixCounter++;
             }
-            output = $"{prefix_number}" + output;
+            output = $"{prefixNumber}\t" + output;
+            if(!onlyGetMaxDeep)
+                Console.WriteLine(output);
 
-            Console.WriteLine(output);
-
-            if (p.RightSon != null)
+            if(node.leftChild != null)
             {
-                int right_deep = printTree(p.RightSon, prefix_number + 1);
-                if (max_deep < right_deep)
-                    max_deep = right_deep;
+                if(node.leftChild.rightBrother != null)
+                {
+                    int rightDeep = printTree(node.leftChild.rightBrother, prefixNumber + 1, onlyGetMaxDeep: onlyGetMaxDeep);
+                    if (maxDeep < rightDeep) { maxDeep = rightDeep; }
+                }
             }
-            return max_deep;
+            return maxDeep;
         }
 
-        // Прямой обход(NLR)
-        public static void NLR(Node p)
+        static public int getSize(Node node)
         {
-            if (p == null)
-                return;
-            Console.WriteLine(p.Value);
-            NLR(p.LeftSon);
-            NLR(p.RightSon);
+            if (node == null) return 0;
+            if (node.mark == 1) return 0;
+            else
+                return node.size;
         }
-
-        //Центрированный обход (LNR)
-        public static void LNR(Node p)
+        static public void fixSize(Node node)
         {
-            if (p == null)
-                return;
-            LNR(p.LeftSon);
-            Console.WriteLine(p.Value);
-            LNR(p.RightSon);
+            int lSize = getSize(node.leftChild);
+            int rSize = 0;
+            if (node.leftChild != null)
+                rSize = getSize(node.leftChild.rightBrother);
+            node.size = lSize + rSize + 1;
         }
 
+
+        public static void InorderTraversal(Node node)
+        {
+            if (node == null)
+                return;
+            if (node.mark != 0)
+                return;
+            
+            InorderTraversal(node.leftChild);
+                
+            Console.WriteLine(node.value);
+                
+            if (node.leftChild != null)
+                InorderTraversal(node.leftChild.rightBrother);
+        }
+
+        public static void InorderTraversal(Node node, List<int> outputList)
+        {
+            if (node == null)
+                return;
+            if (node.mark != 0)
+                return;
+
+            InorderTraversal(node.leftChild, outputList);
+
+            outputList.Add(node.value);
+
+            if (node.leftChild != null)
+                InorderTraversal(node.leftChild.rightBrother, outputList);
+        }
+
+        public static void PostorderTraversal(Node node)
+        {
+            if (node == null)
+                return;
+            if (node.mark != 0)
+                return;
+
+            PostorderTraversal(node.leftChild);
+            if (node.leftChild != null)
+                PostorderTraversal(node.leftChild.rightBrother);
+            Console.WriteLine(node.value);
+        }
+
+        public static void PostorderTraversal(Node node, List<int> outputList)
+        {
+            if (node == null)
+                return;
+            if (node.mark != 0)
+                return;
+
+            PostorderTraversal(node.leftChild);
+            if (node.leftChild != null)
+                PostorderTraversal(node.leftChild.rightBrother);
+            outputList.Add(node.value);
+        }
     }
-
     class Node
     {
-        int value;
-        int size;
-        Node leftSon;
-        Node rightSon;
+        public int value;
+        public Node leftChild;
+        public Node rightBrother;
+        public int mark;
+        public int size;
 
-        public int Value { get => value; set => this.value = value; }
-        public int Size { get => size; set => this.size = value; }
-        public Node LeftSon { get => leftSon; set => this.leftSon = value; }
-        public Node RightSon { get => rightSon; set => this.rightSon = value; }
-
-        public Node(int value)
+        public Node(int value, int mark = 0)
         {
-            Value = value;
-            size = 1;
-            LeftSon = null;
-            RightSon = null;
+            this.value = value;
+            this.leftChild = null;
+            this.rightBrother = null;
+            this.mark = mark;
+
+            if (this.mark == 0)
+                this.size = 1;
+            else 
+                this.size = 0;
+        }
+
+        public override string ToString()
+        {
+            if (this == null)
+                return "null";
+            else
+                return $"{value}";
+        }
+
+        public string ToString(bool _)
+        {
+            return $"NODE HASH({this.GetHashCode()}) VALUE({this.value}) LEFTCHILD({this.leftChild}) RIGHTBROTHER({this.leftChild.rightBrother})";
         }
     }
+
 }
