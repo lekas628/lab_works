@@ -34,6 +34,7 @@ namespace Linear_Structures
         {
             //int[] testing_lenght = { 10, 50, 100, 500, 1000, 3000, 5000 };
             int[] testing_lenght = { 300, 600, 900, 1200, 1500, 1800, 2100, 2400, 2700, 3000 };
+            //int[] testing_lenght = { 1_000 };
 
             string pathCsvFile = @"C:\Users\leka6\Documents\code\lab_works\Linear_Structures\log.csv";
             if (!File.Exists(pathCsvFile))
@@ -44,7 +45,7 @@ namespace Linear_Structures
                 Console.WriteLine($"{"Len",10} {"N_op",25} {"Time (sec)",25} {"success",10}");
                 foreach (int size in testing_lenght)
                 {
-                    for (int i = 0; i < 1; i++)
+                    for (int i = 0; i < 3; i++)
                     {
                         (int, long, TimeSpan, bool) test = test_stack(size);
                         //Console.WriteLine(test);
