@@ -32,9 +32,10 @@ namespace Program
             //input.Remove(4);
             //CheckTree(input, output);
 
-            for(int i = 0; i < 10; i++)
-                run();
-            
+            //for (int i = 0; i < 10; i++)
+            //    run();
+            runTask();
+
             Console.ReadKey();
         }
 
@@ -78,7 +79,7 @@ namespace Program
                 {
                     Console.WriteLine("\n");
                     Console.WriteLine($"ADD ELEMENT {element}");
-                    Console.Write("must be in list ");
+                    Console.Write("must be in tree ");
                     foreach (int elem in inputListSorted)
                         Console.Write($"{elem} ");
                     Console.WriteLine("\n");
@@ -133,6 +134,58 @@ namespace Program
             if (printOutput)
                 Console.ReadKey();
         }
-    }
+    
+        
+        static void runTask()
+        {
+            Node rootA = null;
+            Node rootB = null;
 
+            int[] firstTreeArr = { 2, 4, 14, 5, 2, 7, 8, 12 };
+            int[] secondTreeArr = { 2, 4, 5 };
+
+            foreach(int number in firstTreeArr)
+            {
+                rootA = Tree.Tree.Insert(rootA, number);
+            }
+            foreach(int number in secondTreeArr)
+            {
+                rootB = Tree.Tree.Insert(rootB, number);
+            }
+
+            Console.WriteLine("TREE A");
+            Tree.Tree.printTree(rootA);
+            Console.WriteLine("Прямой обход");
+            Tree.Tree.InorderTraversal(rootA);
+
+
+            Console.WriteLine("TREE B");
+            Tree.Tree.printTree(rootB);
+            Console.WriteLine("Симметричный обход");
+            Tree.Tree.PostorderTraversal(rootB);
+
+
+            while (rootB != null)
+            {
+                if (rootB.mark == 1)
+                    break;
+                int bMin = Tree.Tree.GetMin(rootB).value;
+                rootB = Tree.Tree.Remove(rootB, bMin);
+                rootA = Tree.Tree.Remove(rootA, bMin);
+
+                //Console.WriteLine($"REMOVING {bMin}");
+                //Tree.Tree.printTree(rootA, indent: "DEBUG A");
+                //Console.WriteLine("\n");
+
+                //Tree.Tree.printTree(rootB, indent: "DEBUG B");
+                //Console.WriteLine("\n\n");
+
+            }
+            Console.WriteLine("NEW TREE A");
+            Tree.Tree.printTree(rootA);
+            Console.WriteLine("Прямой обход");
+            Tree.Tree.InorderTraversal(rootA);
+
+        }
+    }
 }

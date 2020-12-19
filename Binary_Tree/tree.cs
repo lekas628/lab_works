@@ -7,11 +7,6 @@ namespace Tree
     {
 
         public static Random rand = new Random();
-        static public bool debug = false;
-        static public bool debug_1 = false; // дебаг поворотов
-        static public bool debug_2 = false; // отрисовка деревьев во время дебага
-        static public int debugTmp1;
-        static public int debugTmp2;
         
 
         public static Node Find(Node node, int value)
@@ -30,6 +25,26 @@ namespace Tree
                     return null;
             }
         }
+
+        public static Node GetMin(Node node)
+        {
+            if (node == null)
+                return null;
+            Node left = node.leftChild;
+            while(true)
+            {
+                if (left == null)
+                    break;
+                if (left.mark == 1)
+                    break;
+                node = node.leftChild;
+                left = node.leftChild;
+            }
+            return node;
+        }
+
+
+
         public static Node Insert(Node node, int value)
         {
             if (node == null)
@@ -57,17 +72,51 @@ namespace Tree
                 }
                 node.leftChild.rightBrother = Insert(node.leftChild.rightBrother, value);
             }
-            fixSize(node);
 
-            if(debug_2)
-            {
-                Console.WriteLine("\n");
-                Console.WriteLine($"PRINT TREE AFTER INSERT {value}");
-                Tree.printTree(node);
-            }
+            node = ClearFromErrors(node);
+            fixSize(node);
 
             return node;
         }
+
+        public static Node Insert(Node node, Node node1)
+        {
+            if (node1 == null)
+                return node;
+            if (node1.rightBrother != null)
+                throw new Exception();
+            
+            if (node == null)
+            {
+                return node1;
+            }
+            if (node.mark == 1)
+            {
+                node1.rightBrother = node.rightBrother;
+                node = node1;
+                return node;
+                //node.value = value;
+                //node.mark = 0;
+            }
+            else if (node1.value <= node.value)
+            {
+                node.leftChild = Insert(node.leftChild, node1);
+            }
+            else
+            {
+                if (node.leftChild == null)
+                {
+                    node.leftChild = new Node(-1, mark: 1);
+                }
+                node.leftChild.rightBrother = Insert(node.leftChild.rightBrother, node1);
+            }
+
+            node = ClearFromErrors(node);
+            fixSize(node);
+
+            return node;
+        }
+
 
         static public Node InsertRoot(Node node, int value)
         {
@@ -108,22 +157,6 @@ namespace Tree
             if (p.mark == 1)
                 return p;
 
-            if(debug_2)
-            {
-                Console.WriteLine("\n");
-                Console.WriteLine("rotate right print tree BEFORE rotate");
-                Tree.printTree(p);
-            }
-
-            if(debug_1)
-            {
-                debugTmp1 = p.leftChild.size;
-                debugTmp2 = 0;
-                if(p.leftChild.rightBrother != null)
-                    debugTmp2 = p.leftChild.rightBrother.size;
-            }
-
-
             Node pRightBrother = p.rightBrother;
             p.rightBrother = null;
 
@@ -152,16 +185,6 @@ namespace Tree
             fixSize(p);
             fixSize(q);
 
-            if(debug_1)
-                Console.WriteLine($"Rotate right left({debugTmp1}) right({debugTmp2}) sum({debugTmp1 + debugTmp2})");
-            if (debug_2)
-            {
-                Console.WriteLine("\n");
-                Console.WriteLine("rotate right print tree AFTER rotate");
-                Tree.printTree(p);
-            }
-
-
             return q;
         }
 
@@ -175,19 +198,6 @@ namespace Tree
                 return null;
 
             Node p = q.leftChild.rightBrother;
-
-            if(debug_1)
-            {
-                debugTmp1 = q.leftChild.size;
-                debugTmp2 = q.leftChild.rightBrother.size;
-            }
-
-            if (debug_2)
-            {
-                Console.WriteLine("\n");
-                Console.WriteLine("rotate left print tree BEFORE rotate");
-                Tree.printTree(p);
-            }
 
             p.rightBrother = q.rightBrother;
             q.rightBrother = null;
@@ -220,137 +230,161 @@ namespace Tree
             fixSize(q);
             fixSize(p);
 
-            if(debug_1)
-                Console.WriteLine($"Rotate left left({debugTmp1}) right({debugTmp2}) sum({debugTmp1 + debugTmp2})");
-            if (debug_2)
-            {
-                Console.WriteLine("\n");
-                Console.WriteLine("rotate left print tree AFTER rotate");
-                Tree.printTree(p);
-            }
-
-
+          
             return p;
-
         }
 
-  
+
         //public static Node Join(Node p, Node q)
         //{
         //    if (p == null)
         //        return q;
         //    if (q == null)
         //        return p;
+        //    //if (p.mark == 1)
+        //    //    return p.rightBrother;
         //    if (p.rightBrother == q)
         //        p.rightBrother = null;
+        //    if (p.mark == 1)
+        //        return q;
 
-        //    if (rand.Next() % (p.size + q.size) < p.size)
+
+        //    if(rand.Next() % (p.size + q.size) < p.size)
         //    {
-        //        if(p.leftChild == null)
-        //            p.leftChild = new Node(-1, mark: 1);
+        //        if (p.leftChild == null)
+        //            p.leftChild = new Node(-1, 1);
         //        p.leftChild.rightBrother = Join(p.leftChild.rightBrother, q);
+        //        if (p.leftChild.rightBrother == null)
+        //            if (p.leftChild.mark == 1)
+        //                p.leftChild = null;
         //        fixSize(p);
         //        return p;
         //    }
         //    else
         //    {
-        //        if(q.leftChild != null)
-        //        {
-        //            if(q.leftChild.mark == 1)
-        //            {
-        //                q.leftChild.value = p.value;
-        //                q.leftChild = p.leftChild;
-        //                q.mark = 0;
-        //                fixSize(q);
-        //                return q;
-        //            }
-
-        //        }
         //        q.leftChild = Join(p, q.leftChild);
-
-
-        //        fixSize(p);
         //        fixSize(q);
-
         //        return q;
         //    }
         //}
 
-        //public static Node Remove(Node node, int value)
+        //public static Node Join(Node p, Node q)
         //{
-        //    if (node == null)
-        //        return node;
-        //    if (node.mark == 1)
-        //        return node;
-
-        //    if (node.value == value)
-        //    {
-        //        if (node.leftChild != null)
-        //        {
-        //            if(node.leftChild.mark == 1)
-        //            {
-        //                node.leftChild.rightBrother.rightBrother = node.rightBrother;
-        //                node = node.leftChild.rightBrother;
-        //                return node;
-        //            }
-        //            if(node.leftChild.rightBrother == null)
-        //            {
-        //                node.leftChild.rightBrother = node.rightBrother;
-        //                node = node.leftChild;
-        //                return node;
-        //            }
-        //            //Node tmp = Join(node.leftChild, node.leftChild.rightBrother);
-        //            //node = null;
-        //            node = Join(node.leftChild, node.leftChild.rightBrother);
-        //            return node;
-        //        }
-        //        else
-        //        {
-        //            return null;
-        //            //else
-        //            //{
-        //            //    node.value = -1;
-        //            //    node.mark = 1;
-        //            //    return node;
-        //            //}
-        //        }
-        //    }
-        //    else if (value < node.value)
-        //    {
-        //        node.leftChild = Remove(node.leftChild, value);
-        //        return node;
-        //    }
-        //    else
-        //    {
-        //        if(node.leftChild != null)
-        //        {
-        //            node.leftChild.rightBrother = Remove(node.leftChild.rightBrother, value);
-        //            return node;
-        //        }
-        //        else
-        //        {
-        //            return node;
-        //        }
-        //    }
-
-        //}
-
-        //node* remove(node* p, int k) // удаление из дерева p первого найденного узла с ключом k 
-        //{
-        //    if (!p) return p;
-        //    if (p->key == k)
-        //    {
-        //        node* q = join(p->left, p->right);
-        //        delete p;
+        //    if (p == null)
         //        return q;
+        //    if (q == null)
+        //        return p;
+
+
+        //    if (rand.Next() % (p.size + q.size) < p.size)
+        //    {
+        //        if(p.leftChild != null)
+        //        {
+        //            p.leftChild.rightBrother = Join(p.leftChild.rightBrother, q);
+        //            fixSize(p);
+        //            return p;
+        //        }
+        //        else
+        //        {
+        //            p.leftChild = Join(p.leftChild, q);
+        //            fixSize(p);
+        //            return p;
+        //        }
         //    }
-        //    else if (k < p->key)
-        //        p->left = remove(p->left, k);
         //    else
-        //        p->right = remove(p->right, k);
-        //    return p;
+        //    {
+        //        if(q.leftChild == null)
+        //        {
+        //            q.leftChild = Join(p, q.leftChild);
+        //            fixSize(q.leftChild);
+        //            fixSize(q);
+        //            return q;
+        //        }
+        //        else if(q.leftChild.mark == 1)
+        //        {
+
+        //        }
+        //    }
         //}
 
+        public static Node Remove(Node node, int value)
+        {
+            if (node == null)
+                return node;
+            if (node.mark == 1)
+                return node;
+            if (node.value == value)
+            {
+                Node rightBrother = node.rightBrother;
+                if (node.leftChild == null)
+                {
+                    if (rightBrother != null)
+                    {
+                        node = new Node(-1, 1);
+                        node.rightBrother = rightBrother;
+                    }
+                    else
+                        node = null;
+                    return node;
+                }
+                else if (node.leftChild.mark == 1)
+                {
+                    node = node.leftChild.rightBrother;
+                    node.rightBrother = rightBrother;
+                    return node;
+                }
+                else
+                {
+                    //Node rBbrother = node.leftChild.rightBrother;
+                    //node.leftChild.rightBrother = null;
+
+                    //node = Insert(node.leftChild, node.leftChild.rightBrother);
+                    //// не забыть про правого брата исходного нода
+                    //return node;
+                    Node LSRB = node.leftChild.rightBrother;
+                    node.leftChild.rightBrother = rightBrother;
+                    node = node.leftChild;
+                    node.leftChild = Insert(node.leftChild, LSRB);
+                    return node;
+                }
+            }
+            else if (value <= node.value)
+            {
+                node.leftChild = Remove(node.leftChild, value);
+                return node;
+            }
+            else
+            {
+                if (node.leftChild != null)
+                {
+                    node.leftChild.rightBrother = Remove(node.leftChild.rightBrother, value);
+                    return node;
+                }
+                else
+                {
+                    return node;
+                }
+            }
+
+        }
+        
+        public static Node ClearFromErrors(Node node)
+        {
+            if (node == null)
+                return node;
+            if (node.leftChild == null)
+                return node;
+            if (node.leftChild != null)
+                if (node.leftChild.mark == 1)
+                    if (node.leftChild.rightBrother == null)
+                    {
+                        node.leftChild = null;
+                        return node;
+                    }
+            node.leftChild = ClearFromErrors(node.leftChild);
+            node.leftChild.rightBrother = ClearFromErrors(node.leftChild.rightBrother);
+            return node;
+        }
         //public static Node Remove(Node node, int value)
         //{
         //    if (node == null)
@@ -363,49 +397,111 @@ namespace Tree
 
 
 
-        static public int printTree(Node node, int prefixNumber = 0, bool isRoot = false, int mark = 0, bool onlyGetMaxDeep = false)
+        //static public int printTree(Node node, int prefixNumber = 0, bool isRoot = false, int mark = 0, bool onlyGetMaxDeep = false)
+        //{
+        //    if (node == null)
+        //        return 0;
+
+        //    int maxDeep = prefixNumber;
+        //    if(node.leftChild != null)
+        //    {
+        //        int leftDeep = printTree(node.leftChild, prefixNumber + 1, onlyGetMaxDeep: onlyGetMaxDeep);
+        //        if (maxDeep < leftDeep) { maxDeep = leftDeep; }
+        //    }
+
+        //    string output = $"NODE HASH({node.GetHashCode()})";
+
+        //    if (node.mark == 1)
+        //        output += $" VIRTUAL";
+        //    else
+        //        output +=  $" VALUE({node.value})";
+
+
+        //    int prefixCounter = 0;
+        //    while (prefixCounter <= prefixNumber)
+        //    {
+        //        output = "+" + output;
+        //        prefixCounter++;
+        //    }
+
+        //    output = $"{prefixNumber}\t" + output;
+        //    if(!onlyGetMaxDeep)
+        //        Console.WriteLine(output);
+
+        //    if(node.leftChild != null)
+        //    {
+        //        if(node.leftChild.rightBrother != null)
+        //        {
+        //            int rightDeep = printTree(node.leftChild.rightBrother, prefixNumber + 1, onlyGetMaxDeep: onlyGetMaxDeep);
+        //            if (maxDeep < rightDeep) { maxDeep = rightDeep; }
+        //        }
+        //    }
+        //    return maxDeep;
+        //}
+
+        static public int getMaxDeep(Node node, int curDeep = 0)
         {
             if (node == null)
                 return 0;
 
-            int maxDeep = prefixNumber;
-            if(node.leftChild != null)
+            int maxDeep = curDeep;
+            if (node.leftChild != null)
             {
-                int leftDeep = printTree(node.leftChild, prefixNumber + 1, onlyGetMaxDeep: onlyGetMaxDeep);
+                int leftDeep = getMaxDeep(node.leftChild, curDeep + 1);
                 if (maxDeep < leftDeep) { maxDeep = leftDeep; }
             }
-            
-            string output = $"NODE HASH({node.GetHashCode()})";
 
-            if (node.mark == 1)
-                output += $" VIRTUAL";
-            else
-                output +=  $" VALUE({node.value})";
-
-
-            //if(isRoot) { output = "ROOT" + output; }
-
-            int prefixCounter = 0;
-            while (prefixCounter <= prefixNumber)
+            if (node.leftChild != null)
             {
-                output = "+" + output;
-                prefixCounter++;
-            }
-
-            output = $"{prefixNumber}\t" + output;
-            if(!onlyGetMaxDeep)
-                Console.WriteLine(output);
-
-            if(node.leftChild != null)
-            {
-                if(node.leftChild.rightBrother != null)
+                if (node.leftChild.rightBrother != null)
                 {
-                    int rightDeep = printTree(node.leftChild.rightBrother, prefixNumber + 1, onlyGetMaxDeep: onlyGetMaxDeep);
+                    int rightDeep = getMaxDeep(node.leftChild.rightBrother, curDeep + 1);
                     if (maxDeep < rightDeep) { maxDeep = rightDeep; }
                 }
             }
             return maxDeep;
         }
+        //static public int printTree(Node node, int prefixNumber = 0, bool isRoot = true, int side = 0, int mark = 0, bool onlyGetMaxDeep = false)
+        //{
+        //    if (node == null)
+        //        return 0;
+
+        //    int maxDeep = getMaxDeep(node);
+          
+            
+        //    return maxDeep;
+        //}
+
+        public static int printTree(Node node, String indent = "", bool onlyGetMaxDeep = false)
+        {
+            if (node == null)
+            {
+                Console.WriteLine("TREE IS EMPTY");
+                return 0;
+            }
+            string indexForThis = indent.Substring(0, indent.Length);
+            indent +=  "|  ";
+
+
+            if (node.leftChild != null)
+                if (node.leftChild.rightBrother != null)
+                    printTree(node.leftChild.rightBrother, indent);
+            
+            
+            if(node.mark == 1)
+                Console.WriteLine(indexForThis + "+- " + "V");
+            else
+                Console.WriteLine(indexForThis + "+- " + node.value);
+            //indent += "|  ";
+
+
+            if(node.leftChild != null)
+                printTree(node.leftChild, indent);
+            
+            
+            return getMaxDeep(node);
+        }
+
 
         static public int getSize(Node node)
         {
