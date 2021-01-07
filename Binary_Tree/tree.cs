@@ -562,19 +562,6 @@ namespace Tree
                 PostorderTraversal(node.leftChild.rightBrother);
             Console.WriteLine(node.value);
         }
-
-        public static void PostorderTraversal(Node node, List<int> outputList)
-        {
-            if (node == null)
-                return;
-            if (node.mark != 0)
-                return;
-
-            PostorderTraversal(node.leftChild);
-            if (node.leftChild != null)
-                PostorderTraversal(node.leftChild.rightBrother);
-            outputList.Add(node.value);
-        }
     }
     class Node
     {

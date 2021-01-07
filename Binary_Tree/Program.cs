@@ -10,36 +10,12 @@ namespace Program
 
         static void Main(string[] args)
         {
-            //List<int> output = new List<int>();
-            //List<int> input = new List<int>() { 3,3,4,3,0};
-            //Node root = null;
-
-            //foreach (int element in input)
-            //    root = Tree.Tree.Insert(root, element);
-
-            ////root = new Node(0);
-            ////root.leftChild = new Node(0);
-            ////root.leftChild.leftChild = new Node(0);
-            ////root.leftChild.rightBrother = new Node(4);
-            ////root.leftChild.rightBrother.leftChild = new Node(4);
-
-
-            ////root = Tree.Tree.Remove(root, 4);
-            //int maxDeep = Tree.Tree.printTree(root);
-
-            //Tree.Tree.InorderTraversal(root, output);
-
-            //input.Remove(4);
-            //CheckTree(input, output);
-
-            //for (int i = 0; i < 10; i++)
-            //    run();
             runTask();
-
+            //run();
             Console.ReadKey();
         }
 
-        static void CheckTree(List<int> input, List<int> treeOutput)
+        static bool CheckTree(List<int> input, List<int> treeOutput)
         {
             bool result = true;
             for (int i = 0; i < input.Count - 1; i++)
@@ -51,88 +27,106 @@ namespace Program
             }
             if (input.Count != treeOutput.Count)
                 result = false;
-            Console.WriteLine(result);
+            return result;
         }
 
         static void run()
         {
-
-            Node root = null;
-
-
             bool printOutput = false;
 
-            int n = 100;
-            int maxNumber = n;
-            int maxElements = n;
+            Node rootA = null;
 
-            List<int> inputListSorted = new List<int>();
-            List<int> CheckList = new List<int>();
+            int nA = 100;
+            int maxNumberA = nA;
+            int maxElementsA = nA;
+
+            List<int> inputListSortedA = new List<int>();
+            List<int> CheckListA = new List<int>();
 
             if(printOutput)
                 Console.WriteLine("INPUT");
-            for (int i = 0; i < maxElements; i++)
+            for (int i = 0; i < maxElementsA; i++)
             {
-                int element = rand.Next() % maxNumber;
-                inputListSorted.Add(element);
+                int element = rand.Next() % maxNumberA;
+                inputListSortedA.Add(element);
                 if (printOutput)
                 {
                     Console.WriteLine("\n");
                     Console.WriteLine($"ADD ELEMENT {element}");
                     Console.Write("must be in tree ");
-                    foreach (int elem in inputListSorted)
+                    foreach (int elem in inputListSortedA)
                         Console.Write($"{elem} ");
                     Console.WriteLine("\n");
                 }
 
-                root = Tree.Tree.Insert(root, element);
+                rootA = Tree.Tree.Insert(rootA, element);
             }
-            inputListSorted.Sort();
-
-            if(printOutput)
-                Console.WriteLine("SORTED INPUT LIST");
-            foreach (int element in inputListSorted)
-            {
-                if (printOutput)
-                    Console.WriteLine(element);
-            }
-
-            if(printOutput)
-                Console.WriteLine("TREE PRINT AFTER FILL");
-            int maxDeep = Tree.Tree.printTree(root, onlyGetMaxDeep: !printOutput);
-            Console.WriteLine("\n");
-
-
-
-
-            //Console.WriteLine($"REMOVE ELEMENT {inputListSorted[3]}");
-            //Tree.Tree.Remove(root, inputListSorted[3]);
-            //Tree.Tree.printTree(root);
-            //inputListSorted.Remove(inputListSorted[3]);
-
-
-
-            CheckList.Clear();
-            Tree.Tree.InorderTraversal(root, CheckList);
-
-
-            bool result = true;
-            for (int i = 0; i < inputListSorted.Count - 1; i++)
-            {
-                if (inputListSorted[i] != CheckList[i])
-                {
-                    result = false;
-                }
-            }
-            if (inputListSorted.Count != CheckList.Count)
-                result = false;
+            inputListSortedA.Sort();
             
-            Console.WriteLine($"RESULT\t\t{result}");
+            CheckListA.Clear();
+            Tree.Tree.InorderTraversal(rootA, CheckListA);
+            bool fillResultA = CheckTree(inputListSortedA, CheckListA);
+            
+            Console.Write($"RESULT A {fillResultA}");
+            Console.WriteLine($"\t\tROOT A SIZE IS {rootA.size}");
 
-            Console.WriteLine($"\nMAX DEEP IS {maxDeep}");
-            Console.WriteLine($"ROOT SIZE IS {root.size}");
+
+
+
+            Node rootB = null;
+
+            int nB = 20;
+            int maxNumberB = nA;
+            int maxElementsB = nB;
+
+            List<int> inputListSortedB = new List<int>();
+            List<int> CheckListB = new List<int>();
+
             if (printOutput)
-                Console.ReadKey();
+                Console.WriteLine("INPUT");
+            for (int i = 0; i < maxElementsB; i++)
+            {
+                int element = rand.Next() % maxNumberA;
+                inputListSortedB.Add(element);
+                if (printOutput)
+                {
+                    Console.WriteLine("\n");
+                    Console.WriteLine($"ADD ELEMENT {element}");
+                    Console.Write("must be in tree ");
+                    foreach (int elem in inputListSortedB)
+                        Console.Write($"{elem} ");
+                    Console.WriteLine("\n");
+                }
+
+                rootB = Tree.Tree.Insert(rootB, element);
+            }
+            inputListSortedB.Sort();
+
+            CheckListB.Clear();
+            Tree.Tree.InorderTraversal(rootB, CheckListB);
+            bool fillResultB = CheckTree(inputListSortedB, CheckListB);
+
+            Console.Write($"RESULT B {fillResultA}");
+            Console.WriteLine($"\t\tROOT B SIZE IS {rootB.size}");
+
+
+
+            while (rootB != null)
+            {
+                if (rootB.mark == 1)
+                    break;
+                int bMin = Tree.Tree.GetMin(rootB).value;
+                rootB = Tree.Tree.Remove(rootB, bMin);
+                
+                rootA = Tree.Tree.Remove(rootA, bMin);
+                inputListSortedA.Remove(bMin);
+            }
+
+            CheckListA.Clear();
+            Tree.Tree.InorderTraversal(rootA, CheckListA);
+            bool result = CheckTree(inputListSortedA, CheckListA);
+            Console.WriteLine($"RESULT {result}");
+
         }
     
         
@@ -141,10 +135,15 @@ namespace Program
             Node rootA = null;
             Node rootB = null;
 
-            int[] firstTreeArr = { 2, 4, 14, 5, 2, 7, 8, 12 };
+            int[] firstTreeArr = { 2, 4, 14, 2, 7, 8, 12 };
             int[] secondTreeArr = { 2, 4, 5 };
 
-            foreach(int number in firstTreeArr)
+            //int[] firstTreeArr = { 1, 7, 2, 4, 1, 14, 32, 16, 55, 120 };
+            //int[] secondTreeArr = { 14, 5, 21, 32, 55, 666 };
+
+
+
+            foreach (int number in firstTreeArr)
             {
                 rootA = Tree.Tree.Insert(rootA, number);
             }
@@ -155,24 +154,27 @@ namespace Program
 
             Console.WriteLine("TREE A");
             Tree.Tree.printTree(rootA);
-            Console.WriteLine("Прямой обход");
-            Tree.Tree.InorderTraversal(rootA);
+            Console.WriteLine("Обратный обход");
+            Tree.Tree.PostorderTraversal(rootA);
 
 
             Console.WriteLine("TREE B");
             Tree.Tree.printTree(rootB);
             Console.WriteLine("Симметричный обход");
-            Tree.Tree.PostorderTraversal(rootB);
+            Tree.Tree.InorderTraversal(rootB);
 
+            Node rootC = null;
 
             while (rootB != null)
             {
                 if (rootB.mark == 1)
                     break;
                 int bMin = Tree.Tree.GetMin(rootB).value;
+                
                 rootB = Tree.Tree.Remove(rootB, bMin);
                 rootA = Tree.Tree.Remove(rootA, bMin);
 
+                rootC = Tree.Tree.Insert(rootC, bMin);
                 //Console.WriteLine($"REMOVING {bMin}");
                 //Tree.Tree.printTree(rootA, indent: "DEBUG A");
                 //Console.WriteLine("\n");
@@ -181,10 +183,23 @@ namespace Program
                 //Console.WriteLine("\n\n");
 
             }
+
+   
+
+            while(rootC != null)
+            {
+                //if (rootC.mark == 1)
+                //    break;
+                int cMin = Tree.Tree.GetMin(rootC).value;
+                rootC = Tree.Tree.Remove(rootC, cMin);
+                rootB = Tree.Tree.Insert(rootB, cMin);
+            }
+
             Console.WriteLine("NEW TREE A");
             Tree.Tree.printTree(rootA);
-            Console.WriteLine("Прямой обход");
-            Tree.Tree.InorderTraversal(rootA);
+
+            //Console.WriteLine("OLD TREE B");
+            //Tree.Tree.printTree(rootB);
 
         }
     }
