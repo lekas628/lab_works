@@ -123,10 +123,10 @@ namespace Graph
             int ID = NodeGetID(Name);
             if (ID == -1)
                 return false;
-            else return NodeExistByID(ID);
+            else return NodeExist(ID);
         }
 
-        public bool NodeExistByID(int NodeID)
+        public bool NodeExist(int NodeID)
         {
             if (NodeID < 0 || NodeID >= B.Length)
             {
@@ -195,7 +195,7 @@ namespace Graph
             int to = NodeGetID(toNode);
             if (from == -1 || to == -1)
                 return -1;
-            return WayAddByID(from, to, cost);
+            return WayAdd(from, to, cost);
         }
 
         public void WayAdd((string, string, int)[] wayArray)
@@ -206,56 +206,15 @@ namespace Graph
             }
         }
 
-
-
-
-        public int WayDel(string fromNode, string toNode)
+        public int WayAdd(int fromNode, int toNode, int cost)
         {
-            int from = NodeGetID(fromNode);
-            int to = NodeGetID(toNode);
-            if (from == -1 || to == -1)
-                return -1;
-            return WayDelByID(from, to);
-        }
-
-        public int WayEdit(string fromNode, string toNode, int cost)
-        {
-            int from = NodeGetID(fromNode);
-            int to = NodeGetID(toNode);
-            if (from == -1 || to == -1)
-                return -1;
-            return WayEditByID(from, to, cost);
-        }
-
-        public int WayGet(string fromNode, string toNode)
-        {
-            int from = NodeGetID(fromNode);
-            int to = NodeGetID(toNode);
-            if (from == -1 || to == -1)
-                return -1;
-            return WayGetByID(from, to);
-        }
-
-        //// if Max = true return max neighbor way cost, else return min way cost
-        //// return (int, int) first is Node ID, second is cost
-        //public (int, int) WayGet(string fromNode, bool Max)
-        //{
-        //    int ID = NodeGetID(fromNode);
-        //    if (ID == -1)
-        //        return (-1, -1);
-        //    return WayGetByID(ID, Max);
-
-        //}
-
-        public int WayAddByID(int fromNode, int toNode, int cost)
-        {
-            if (!NodeExistByID(fromNode) || !NodeExistByID(toNode))
+            if (!NodeExist(fromNode) || !NodeExist(toNode))
             {
                 Console.WriteLine("One of the node does not exist");
                 return -1;
             }
 
-            if(B[fromNode][fromNode * B.Length + toNode] != 0)
+            if (B[fromNode][fromNode * B.Length + toNode] != 0)
             {
                 Console.WriteLine($"Road {fromNode} {toNode} already exist");
                 return -1;
@@ -265,9 +224,19 @@ namespace Graph
             return 0;
         }
 
-        public int WayDelByID(int fromNode, int toNode)
+
+        public int WayDel(string fromNode, string toNode)
         {
-            if (!NodeExistByID(fromNode) || !NodeExistByID(toNode))
+            int from = NodeGetID(fromNode);
+            int to = NodeGetID(toNode);
+            if (from == -1 || to == -1)
+                return -1;
+            return WayDel(from, to);
+        }
+
+        public int WayDel(int fromNode, int toNode)
+        {
+            if (!NodeExist(fromNode) || !NodeExist(toNode))
             {
                 Console.WriteLine("One of the node does not exist");
                 return -1;
@@ -282,10 +251,18 @@ namespace Graph
             B[toNode][toNode * B.Length + fromNode] = 0;
             return 0;
         }
-
-        public int WayEditByID(int fromNode, int toNode, int cost)
+        public int WayEdit(string fromNode, string toNode, int cost)
         {
-            if (!NodeExistByID(fromNode) || !NodeExistByID(toNode))
+            int from = NodeGetID(fromNode);
+            int to = NodeGetID(toNode);
+            if (from == -1 || to == -1)
+                return -1;
+            return WayEdit(from, to, cost);
+        }
+
+        public int WayEdit(int fromNode, int toNode, int cost)
+        {
+            if (!NodeExist(fromNode) || !NodeExist(toNode))
             {
                 Console.WriteLine("One of the node does not exist");
                 return -1;
@@ -300,9 +277,32 @@ namespace Graph
             B[toNode][toNode * B.Length + fromNode] = -cost;
             return 0;
         }
-        public int WayGetByID(int fromNode, int toNode)
+
+        public int WayGet(string fromNode, string toNode)
         {
-            if (!NodeExistByID(fromNode) || !NodeExistByID(toNode))
+            int from = NodeGetID(fromNode);
+            int to = NodeGetID(toNode);
+            if (from == -1 || to == -1)
+                return -1;
+            return WayGet(from, to);
+        }
+
+        //// if Max = true return max neighbor way cost, else return min way cost
+        //// return (int, int) first is Node ID, second is cost
+        //public (int, int) WayGet(string fromNode, bool Max)
+        //{
+        //    int ID = NodeGetID(fromNode);
+        //    if (ID == -1)
+        //        return (-1, -1);
+        //    return WayGetByID(ID, Max);
+
+        //}
+
+
+
+        public int WayGet(int fromNode, int toNode)
+        {
+            if (!NodeExist(fromNode) || !NodeExist(toNode))
             {
                 Console.WriteLine("One of the node does not exist");
                 return -1;
@@ -361,9 +361,9 @@ namespace Graph
         //    return (resultID, resultCost);
         //}
 
-        public int WayGetNextNodeByID(int fromNode)
+        public int WayGetNextNode(int fromNode)
         {
-            if(!NodeExistByID(fromNode))
+            if(!NodeExist(fromNode))
             {
                 Console.WriteLine("One of the node does not exist");
                 return -1;
@@ -383,9 +383,9 @@ namespace Graph
             return -1;
         }
 
-        public int WayGetNextNodeByID(int fromNode, int afterNode)
+        public int WayGetNextNode(int fromNode, int afterNode)
         {
-            if (!NodeExistByID(fromNode) || !NodeExistByID(afterNode))
+            if (!NodeExist(fromNode) || !NodeExist(afterNode))
             {
                 Console.WriteLine("One of the node does not exist");
                 return -1;
